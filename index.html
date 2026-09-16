@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>しまなみかぶぬしミーティング｜公認かぶぬし</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Noto Sans JP",
+                   "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+      background: #fff;
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .scene {
+      width: min(88vw, 560px);
+      height: min(82vh, 720px);
+      perspective: 1200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.75s cubic-bezier(.2,.7,.2,1);
+    }
+
+    .card.flipping {
+      transform: rotateY(180deg);
+    }
+
+    .face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: #fff;
+      border-radius: 18px;
+      padding: 40px;
+    }
+
+    .front {
+      transform: rotateY(0deg);
+    }
+
+    .back {
+      transform: rotateY(180deg);
+    }
+
+    /* 1枚目 */
+    .check-box {
+      width: min(42vw, 220px);
+      height: min(42vw, 220px);
+      max-width: 220px;
+      max-height: 220px;
+      border: 8px solid #f58a24;
+      border-radius: 12px;
+      position: relative;
+    }
+
+    .check-box.checked::after {
+      content: "";
+      position: absolute;
+      left: 18%;
+      top: 5%;
+      width: 38%;
+      height: 68%;
+      border-right: 13px solid #009da8;
+      border-bottom: 13px solid #009da8;
+      transform: rotate(43deg);
+      transform-origin: center;
+    }
+
+    /* 2枚目 */
+    .thanks {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .mini-check {
+      width: 105px;
+      height: 105px;
+      border: 7px solid #f58a24;
+      border-radius: 9px;
+      position: relative;
+    }
+
+    .mini-check::after {
+      content: "";
+      position: absolute;
+      left: 18%;
+      top: 3%;
+      width: 38%;
+      height: 68%;
+      border-right: 10px solid #009da8;
+      border-bottom: 10px solid #009da8;
+      transform: rotate(43deg);
+    }
+
+    .official {
+      color: #f58a24;
+      font-size: clamp(42px, 9vw, 72px);
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      line-height: 1;
+    }
+
+    .message {
+      color: #009da8;
+      font-size: clamp(16px, 3.2vw, 23px);
+      font-weight: 700;
+      line-height: 1.9;
+      letter-spacing: 0.03em;
+    }
+
+    /* 3枚目 */
+    .logo-wrap {
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .logo {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .hint {
+      position: fixed;
+      bottom: 18px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: #999;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+
+    @media (max-width: 480px) {
+      .scene {
+        width: 92vw;
+        height: 78vh;
+      }
+
+      .face {
+        padding: 24px;
+      }
+
+      .check-box {
+        border-width: 6px;
+      }
+
+      .check-box.checked::after {
+        border-width: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="scene">
+    <div class="card" id="card">
+
+      <!-- 1枚目 -->
+      <div class="face front" id="first">
+        <div class="check-box" id="bigCheck"></div>
+      </div>
+
+      <!-- 2枚目 -->
+      <div class="face back" id="second">
+        <div class="thanks">
+          <div class="mini-check"></div>
+          <div class="official">＼ 公認 ／</div>
+          <div class="message">
+            ご協力ありがとうございます。<br>
+            これからもしまなみかぶぬしミーティングを<br>
+            よろしくお願いいたします。
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="hint" id="hint">画面をタップしてください</div>
+
+  <script>
+    const card = document.getElementById("card");
+    const bigCheck = document.getElementById("bigCheck");
+    const hint = document.getElementById("hint");
+
+    let step = 0;
+
+    document.body.addEventListener("click", () => {
+      if (step === 0) {
+        // まずチェックが入る
+        bigCheck.classList.add("checked");
+        step = 1;
+        hint.textContent = "もう一度タップしてください";
+      } else if (step === 1) {
+        // 2枚目へ
+        card.classList.add("flipping");
+        step = 2;
+        hint.textContent = "もう一度タップすると公認かぶぬしへ";
+      } else if (step === 2) {
+        // 3枚目をフェードで表示
+        showLogo();
+        step = 3;
+        hint.textContent = "";
+      }
+    });
+
+    function showLogo() {
+      const scene = document.querySelector(".scene");
+
+      scene.innerHTML = `
+        <div class="logo-wrap">
+          <img class="logo" src="logo.jpg" alt="しまなみかぶぬしミーティング 公認かぶぬし">
+        </div>
+      `;
+
+      const logo = scene.querySelector(".logo-wrap");
+      logo.animate(
+        [
+          { opacity: 0, transform: "scale(.94)" },
+          { opacity: 1, transform: "scale(1)" }
+        ],
+        {
+          duration: 700,
+          easing: "cubic-bezier(.2,.7,.2,1)",
+          fill: "forwards"
+        }
+      );
+    }
+  </script>
+</body>
+</html>
