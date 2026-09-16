@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>しまなみかぶぬしミーティング｜公認かぶぬし</title>
+
   <style>
     * {
       box-sizing: border-box;
@@ -16,10 +17,7 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Noto Sans JP",
-                   "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
       background: #fff;
-      color: #333;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -57,10 +55,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      text-align: center;
       background: #fff;
       border-radius: 18px;
-      padding: 40px;
+      padding: 20px;
+      overflow: hidden;
     }
 
     .front {
@@ -71,87 +69,10 @@
       transform: rotateY(180deg);
     }
 
-    /* 1枚目 */
-    .check-box {
-      width: min(42vw, 220px);
-      height: min(42vw, 220px);
-      max-width: 220px;
-      max-height: 220px;
-      border: 8px solid #f58a24;
-      border-radius: 12px;
-      position: relative;
-    }
-
-    .check-box.checked::after {
-      content: "";
-      position: absolute;
-      left: 18%;
-      top: 5%;
-      width: 38%;
-      height: 68%;
-      border-right: 13px solid #009da8;
-      border-bottom: 13px solid #009da8;
-      transform: rotate(43deg);
-      transform-origin: center;
-    }
-
-    /* 2枚目 */
-    .thanks {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 28px;
-    }
-
-    .mini-check {
-      width: 105px;
-      height: 105px;
-      border: 7px solid #f58a24;
-      border-radius: 9px;
-      position: relative;
-    }
-
-    .mini-check::after {
-      content: "";
-      position: absolute;
-      left: 18%;
-      top: 3%;
-      width: 38%;
-      height: 68%;
-      border-right: 10px solid #009da8;
-      border-bottom: 10px solid #009da8;
-      transform: rotate(43deg);
-    }
-
-    .official {
-      color: #f58a24;
-      font-size: clamp(42px, 9vw, 72px);
-      font-weight: 900;
-      letter-spacing: 0.08em;
-      line-height: 1;
-    }
-
-    .message {
-      color: #009da8;
-      font-size: clamp(16px, 3.2vw, 23px);
-      font-weight: 700;
-      line-height: 1.9;
-      letter-spacing: 0.03em;
-    }
-
-    /* 3枚目 */
-    .logo-wrap {
-      width: 100%;
-      max-width: 500px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .logo {
+    .card-image {
       display: block;
       width: 100%;
-      height: auto;
+      height: 100%;
       object-fit: contain;
     }
 
@@ -175,83 +96,91 @@
       }
 
       .face {
-        padding: 24px;
-      }
-
-      .check-box {
-        border-width: 6px;
-      }
-
-      .check-box.checked::after {
-        border-width: 10px;
+        padding: 10px;
       }
     }
   </style>
 </head>
 
 <body>
+
   <div class="scene">
     <div class="card" id="card">
 
       <!-- 1枚目 -->
-      <div class="face front" id="first">
-        <div class="check-box" id="bigCheck"></div>
+      <div class="face front">
+        <img
+          class="card-image"
+          src="front.jpg"
+          alt="しまなみかぶぬしミーティング"
+        >
       </div>
 
       <!-- 2枚目 -->
-      <div class="face back" id="second">
-        <div class="thanks">
-          <div class="mini-check"></div>
-          <div class="official">＼ 公認 ／</div>
-          <div class="message">
-            ご協力ありがとうございます。<br>
-            これからもしまなみかぶぬしミーティングを<br>
-            よろしくお願いいたします。
-          </div>
-        </div>
+      <div class="face back">
+        <img
+          class="card-image"
+          src="back.jpg"
+          alt="公認かぶぬし"
+        >
       </div>
 
     </div>
   </div>
 
-  <div class="hint" id="hint">画面をタップしてください</div>
+  <div class="hint" id="hint">
+    画面をタップしてください
+  </div>
 
   <script>
     const card = document.getElementById("card");
-    const bigCheck = document.getElementById("bigCheck");
     const hint = document.getElementById("hint");
 
     let step = 0;
 
     document.body.addEventListener("click", () => {
+
       if (step === 0) {
-        // まずチェックが入る
-        bigCheck.classList.add("checked");
-        step = 1;
-        hint.textContent = "もう一度タップしてください";
-      } else if (step === 1) {
         // 2枚目へ
         card.classList.add("flipping");
-        step = 2;
-        hint.textContent = "もう一度タップすると公認かぶぬしへ";
-      } else if (step === 2) {
-        // 3枚目をフェードで表示
+        step = 1;
+        hint.textContent = "もう一度タップしてください";
+
+      } else if (step === 1) {
+        // 3枚目へ
         showLogo();
-        step = 3;
+        step = 2;
         hint.textContent = "";
       }
+
     });
 
     function showLogo() {
       const scene = document.querySelector(".scene");
 
       scene.innerHTML = `
-        <div class="logo-wrap">
-          <img class="logo" src="logo.jpg" alt="しまなみかぶぬしミーティング 公認かぶぬし">
+        <div style="
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        ">
+          <img
+            src="logo.jpg"
+            alt="しまなみかぶぬしミーティング 公認かぶぬし"
+            style="
+              display: block;
+              width: 100%;
+              height: 100%;
+              object-fit: contain;
+            "
+          >
         </div>
       `;
 
-      const logo = scene.querySelector(".logo-wrap");
+      const logo = scene.querySelector("img");
+
       logo.animate(
         [
           { opacity: 0, transform: "scale(.94)" },
@@ -265,5 +194,6 @@
       );
     }
   </script>
+
 </body>
 </html>
