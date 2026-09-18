@@ -155,6 +155,7 @@
 
     });
 
+
 function showLogo() {
   const scene = document.querySelector(".scene");
 
@@ -163,15 +164,18 @@ function showLogo() {
       width: 100%;
       height: 100%;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      gap: 18px;
     ">
       <a
         href="https://shimanami-cubnushi.amebaownd.com/"
         style="
           display: block;
           width: 100%;
-          height: 100%;
+          flex: 1;
+          min-height: 0;
         "
       >
         <img
@@ -185,6 +189,18 @@ function showLogo() {
           "
         >
       </a>
+
+      <p style="
+        margin: 0;
+        padding: 0 12px;
+        color: #555;
+        font-size: 13px;
+        line-height: 1.8;
+        text-align: center;
+      ">
+        あなたを、しまなみかぶぬしミーティングの<br>
+        「公認かぶぬし」として認定します。
+      </p>
     </div>
   `;
 
